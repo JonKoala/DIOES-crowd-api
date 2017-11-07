@@ -9,6 +9,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use('/publicacoes', require('./routes/publicacoes'));
+
 var port = appconfig['server']['port'];
 app.listen(port, function() {
   console.log('Server up and running! Listening on ' + port + '...');
