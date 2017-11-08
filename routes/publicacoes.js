@@ -12,16 +12,19 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/random', (req, res) => {
-
-  //TODO: too slow - alternative: use a view or sp instead, and apply this: https://stackoverflow.com/a/19419/1269898
-  model.publicacao.find({limit: 0, order: 'NEWID()'})
+router.get('/random', handleRandomRequest);
+function handleRandomRequest(req, res, next, tried=false) {
+  model.randomPublicacao.findOne()
     .then(publicacao => {
       res.send(publicacao);
     }).catch(err => {
-      res.status(500).send(err);
+      //for whatever reason, sequelize always fails on first request
+      if (tried)
+        res.status(500).send(err);
+      else
+        handleRandomRequest(req, res, next, true);
     });
-});
+}
 
 router.get('/:id', (req, res) => {
 
