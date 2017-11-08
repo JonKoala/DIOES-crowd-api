@@ -12,19 +12,15 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/random', handleRandomRequest);
-function handleRandomRequest(req, res, next, tried=false) {
-  model.randomPublicacao.findOne()
+router.get('/rand', (req, res) => {
+
+  model.randPublicacao.findOne({order: 'randId'})
     .then(publicacao => {
       res.send(publicacao);
     }).catch(err => {
-      //for whatever reason, sequelize always fails on first request
-      if (tried)
-        res.status(500).send(err);
-      else
-        handleRandomRequest(req, res, next, true);
+      res.status(500).send(err);
     });
-}
+});
 
 router.get('/:id', (req, res) => {
 

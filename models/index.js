@@ -1,5 +1,5 @@
 var publicacao = require('./publicacao')
-var randomPublicacao = require('./randomPublicacao')
+var randPublicacao = require('./randPublicacao')
 
-module.exports.randomPublicacao = randomPublicacao
+module.exports.randPublicacao = randPublicacao
 module.exports.publicacao = publicacao;
