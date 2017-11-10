@@ -13,7 +13,7 @@ var publicacao = db.define('publicacao', {
     type: sequelize.DATE,
     get() {
       var fragments = this.getDataValue('data').split('/');
-      return new Date(fragments[2], fragments[1], fragments[0]);
+      return new Date(fragments[2], fragments[1]-1, fragments[0]);
     }
   },
   categoria: sequelize.STRING,
