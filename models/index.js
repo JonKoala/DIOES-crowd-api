@@ -1,5 +1,9 @@
 var publicacao = require('./publicacao')
-var randPublicacao = require('./randPublicacao')
+var classificacao = require('./classificacao')
 
-module.exports.randPublicacao = randPublicacao
+//publicacao 1:0 classificacao
+classificacao.belongsTo(publicacao, {foreignKey: 'id'})
+publicacao.hasOne(classificacao, {foreignKey: 'id'})
+
 module.exports.publicacao = publicacao;
+module.exports.classificacao = classificacao;

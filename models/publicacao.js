@@ -7,13 +7,17 @@ var publicacao = db.define('publicacao', {
     primaryKey: true,
     autoIncrement: true,
   },
+  randId: {
+    type: sequelize.STRING,
+    field: 'rand_id'
+  },
   edicao: sequelize.STRING,
   numero: sequelize.STRING,
   data: {
     type: sequelize.DATE,
     get() {
       var fragments = this.getDataValue('data').split('/');
-      return new Date(fragments[2], fragments[1]-1, fragments[0]);
+      return new Date(fragments[2], fragments[1], fragments[0]);
     }
   },
   categoria: sequelize.STRING,
@@ -28,7 +32,11 @@ var publicacao = db.define('publicacao', {
   }
 }, {
   timestamps: false,
-  tableName: 'DIOES3'
+  tableName: 'Randomized_DIOES3'
 });
+
+//needed in case this view is the first one to be queried when the server is created
+//if the first SELECT to the database is about this view, sequelize will freak out (it appears to hate this view in particular...)
+db.query('SELECT 1');
 
 module.exports = publicacao;
