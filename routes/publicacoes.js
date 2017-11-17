@@ -2,22 +2,21 @@ var model = require('../models')
 var express = require('express')
 var router = express.Router();
 
-router.get('/', (req, res) => {
-
-  model.publicacao.findAll()
-    .then(publicacoes => {
-      res.send(publicacoes);
-    }).catch(err => {
-      res.status(500).send(err);
-    });
-});
-
 router.get('/rand', (req, res) => {
 
-  model.randPublicacao.findOne({order: 'randId'})
-    .then(publicacao => {
+  let id = req.params.id;
+
+  model.publicacao.findOne({
+      include: [{model: model.classificacao}],
+      where: [
+        {'$classificacao.classe$': null},
+        {tipo: {$in: ['Aviso de Licitação', 'Contrato', 'Aditivo', 'Ata Registro de Preço', 'Inexigibilidade de Licitação', 'Dispensa de Licitação']}}
+      ],
+      order: 'randId'
+    }).then(publicacao => {
       res.send(publicacao);
     }).catch(err => {
+      console.log(err);
       res.status(500).send(err);
     });
 });
