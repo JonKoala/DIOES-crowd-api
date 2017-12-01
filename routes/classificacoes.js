@@ -5,12 +5,12 @@ var router = express.Router();
 router.post('/', (req, res) => {
 
   let publicacao = req.body.publicacao;
-  let isTi = req.body.isTi;
+  let classe = req.body.classe;
 
   model.classificacao.destroy({where: {id: publicacao.id}})
     .then(() => {
-      if (isTi !== null)
-        return model.classificacao.create({id: publicacao.id, isTi: isTi});
+      if (classe !== null)
+        return model.classificacao.create({id: publicacao.id, classe_id: classe});
       return;
     }).then(() => {
       res.send();

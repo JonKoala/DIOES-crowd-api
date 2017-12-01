@@ -5,7 +5,7 @@ var publicacao = db.define('publicacao', {
   id: {
     type: sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: true
   },
   randId: {
     type: sequelize.STRING,

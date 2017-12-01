@@ -9,8 +9,8 @@ router.get('/rand', (req, res) => {
   model.publicacao.findOne({
       include: [{model: model.classificacao}],
       where: [
-        {'$classificacao.classe_ti$': null},
-        {tipo: {$in: ['Aviso de Licitação', 'Contrato', 'Aditivo', 'Ata Registro de Preço', 'Inexigibilidade de Licitação', 'Dispensa de Licitação']}}
+        {'$classificacao.classe_id$': null},
+        {tipo: {$in: ['Aviso de Licitação', 'Contrato', 'Ata Registro de Preço', 'Inexigibilidade de Licitação', 'Dispensa de Licitação']}}
       ],
       order: 'randId'
     }).then(publicacao => {
