@@ -7,7 +7,10 @@ var classificacao = db.define('classificacao', {
     primaryKey: true,
     field: 'DIOES3_id'
   },
-  classe: sequelize.STRING
+  isTi: {
+    type: sequelize.BOOLEAN,
+    field: 'classe_ti'
+  }
 }, {
   timestamps: false,
   tableName: 'Classificacao_DIOES3'

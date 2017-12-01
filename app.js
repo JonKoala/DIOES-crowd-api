@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/publicacoes', require('./routes/publicacoes'));
+app.use('/classificacoes', require('./routes/classificacoes'));
 
 var port = appconfig['server']['port'];
 app.listen(port, function() {

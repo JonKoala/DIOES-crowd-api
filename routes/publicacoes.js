@@ -9,14 +9,13 @@ router.get('/rand', (req, res) => {
   model.publicacao.findOne({
       include: [{model: model.classificacao}],
       where: [
-        {'$classificacao.classe$': null},
+        {'$classificacao.classe_ti$': null},
         {tipo: {$in: ['Aviso de Licitação', 'Contrato', 'Aditivo', 'Ata Registro de Preço', 'Inexigibilidade de Licitação', 'Dispensa de Licitação']}}
       ],
       order: 'randId'
     }).then(publicacao => {
       res.send(publicacao);
     }).catch(err => {
-      console.log(err);
       res.status(500).send(err);
     });
 });
