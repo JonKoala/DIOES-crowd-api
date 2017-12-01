@@ -1,4 +1,4 @@
 node_modules/
 npm-debug.log
 error_log
-appconfig.yaml
+appconfig.yml
