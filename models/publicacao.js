@@ -11,28 +11,19 @@ var publicacao = db.define('publicacao', {
     type: sequelize.STRING,
     field: 'rand_id'
   },
-  edicao: sequelize.STRING,
-  numero: sequelize.STRING,
-  data: {
-    type: sequelize.DATE,
-    get() {
-      var fragments = this.getDataValue('data').split('/');
-      return new Date(fragments[2], fragments[1], fragments[0]);
-    }
-  },
+  edicao: sequelize.INTEGER,
+  numero: sequelize.INTEGER,
+  data: sequelize.DATE,
   categoria: sequelize.STRING,
   orgao: sequelize.STRING,
   suborgao: sequelize.STRING,
   tipo: sequelize.STRING,
   materia: sequelize.STRING,
-  identificador: sequelize.STRING,
-  texto: {
-    type: sequelize.STRING,
-    field: 'publicacao'
-  }
+  identificador: sequelize.INTEGER,
+  corpo: sequelize.STRING
 }, {
   timestamps: false,
-  tableName: 'Randomized_DIOES3'
+  tableName: 'Randomizable_Publicacao'
 });
 
 //needed in case this view is the first one to be queried when the server is created
