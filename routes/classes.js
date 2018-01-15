@@ -14,4 +14,15 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/keywords', (req, res) => {
+
+  model.classe.findAll({include: [{model: model.keyword, as: 'keywords'}]})
+    .then(classes => {
+      res.send(classes);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
+
 module.exports = router;
