@@ -4,8 +4,6 @@ var router = express.Router();
 
 router.get('/rand', (req, res) => {
 
-  let id = req.params.id;
-
   model.publicacao.findOne({
       include: [{model: model.classificacao}],
       where: [
