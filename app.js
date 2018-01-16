@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/publicacoes', require('./routes/publicacoes'));
 app.use('/classes', require('./routes/classes'));
 app.use('/classificacoes', require('./routes/classificacoes'));
+app.use('/predicoes', require('./routes/predicoes'));
 
 var port = appconfig['server']['port'];
 app.listen(port, function() {
