@@ -7,7 +7,8 @@ var classe = db.define('classe', {
     primaryKey: true,
     autoIncrement: true
   },
-  nome: sequelize.STRING
+  nome: sequelize.STRING,
+  ordem: sequelize.INTEGER
 }, {
   timestamps: false,
   tableName: 'Classe_DIOES3'
