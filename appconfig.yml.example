@@ -5,3 +5,6 @@ db:
   host: '[HOST NAME]'
   database: '[DATABASE NAME]'
   driver: '[SQL Server Native Client x]'
+
+  crowdsourcer:
+    tipos_publicacoes: []

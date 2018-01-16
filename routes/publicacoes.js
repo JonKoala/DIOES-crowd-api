@@ -1,3 +1,4 @@
+var appconfig = require('../appconfig')
 var model = require('../models')
 var express = require('express')
 var router = express.Router();
@@ -8,7 +9,7 @@ router.get('/rand', (req, res) => {
       include: [{model: model.classificacao}],
       where: [
         {'$classificacao.classe_id$': null},
-        {tipo: {$in: ['Aviso de Licitação', 'Contrato', 'Ata Registro de Preço', 'Inexigibilidade de Licitação', 'Dispensa de Licitação']}}
+        {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}}
       ],
       order: 'randId'
     }).then(publicacao => {
