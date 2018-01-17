@@ -7,10 +7,10 @@ router.post('/', (req, res) => {
   let publicacao = req.body.publicacao;
   let classe = req.body.classe;
 
-  model.classificacao.destroy({where: {id: publicacao.id}})
+  model.classificacao.destroy({where: {id: publicacao}})
     .then(() => {
       if (classe !== null)
-        return model.classificacao.create({id: publicacao.id, classe_id: classe});
+        return model.classificacao.create({id: publicacao, classe_id: classe});
       return;
     }).then(() => {
       res.send();
