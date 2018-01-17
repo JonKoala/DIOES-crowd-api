@@ -3,6 +3,23 @@ var model = require('../models')
 var express = require('express')
 var router = express.Router();
 
+router.get('/', (req, res) => {
+
+  var data = req.query.data;
+
+  model.publicacao.findAll({
+    where: [
+      {data: data},
+      {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}}
+    ],
+    include: {model: model.predicao, where: {id: {$not: null}}, include: {model: model.classe}}
+  }).then(publicacoes => {
+    res.send(publicacoes);
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+});
+
 router.get('/latest', (req, res) => {
 
   model.publicacao.findOne({
