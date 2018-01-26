@@ -3,18 +3,30 @@ var model = require('../models')
 var express = require('express')
 var router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/paginable', (req, res) => {
 
-  var data = req.query.data;
+  // default
+  var findOptions = {
+    where: [ {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}} ]
+  };
 
-  model.publicacao.findAll({
-    where: [
-      {data: data},
-      {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}}
-    ],
-    include: {model: model.predicao, where: {id: {$not: null}}, include: {model: model.classe}}
-  }).then(publicacoes => {
-    res.send(publicacoes);
+  // pagination logic
+  if ('itemsPerPage' in req.query && 'page' in req.query) {
+    findOptions.limit = req.query.itemsPerPage;
+    findOptions.offset = req.query.itemsPerPage * req.query.page;
+  }
+
+  // sorting logic
+  if ('sortBy' in req.query && 'sortOrder' in req.query)
+    findOptions.order = [[req.query.sortBy, req.query.sortOrder]];
+
+  // where logic
+  if ('whereData' in req.query)
+    findOptions.where.push({data: req.query.whereData});
+
+  model.predicao.findAndCountAll(findOptions)
+  .then(result => {
+    res.send(result);
   }).catch(err => {
     res.status(500).send(err);
   });
@@ -22,12 +34,11 @@ router.get('/', (req, res) => {
 
 router.get('/latest', (req, res) => {
 
-  model.publicacao.findOne({
+  model.predicao.findOne({
     attributes: ['data'],
     order: [['data', 'DESC']],
-    include: [{model: model.predicao, where: {id: {$not: null}}}]
-  }).then(publicacao => {
-    res.send(publicacao.data);
+  }).then(predicao => {
+    res.send(predicao.data);
   }).catch(err => {
     res.status(500).send(err);
   });
@@ -37,14 +48,13 @@ router.get('/data/:year-:month-:day', (req, res) => {
 
   var date = req.params.year + '-' + req.params.month + '-' + req.params.day;
 
-  model.publicacao.findAll({
+  model.predicao.findAll({
     where: [
       {data: date},
       {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}}
-    ],
-    include: {model: model.predicao, where: {id: {$not: null}}, include: {model: model.classe}}
-  }).then(publicacoes => {
-    res.send(publicacoes);
+    ]
+  }).then(predicoes => {
+    res.send(predicoes);
   }).catch(err => {
     res.status(500).send(err);
   });
@@ -54,10 +64,8 @@ router.get('/:id', (req, res) => {
 
   let id = req.params.id;
 
-  model.publicacao.findById(id,
-    {include: [
-      {model: model.predicao, where: {id: {$not: null}}, include: {model: model.classe}}
-  ]}).then(publicacao => {
+  model.predicao.findById(id)
+  .then(publicacao => {
     res.send(publicacao);
   }).catch(err => {
     res.status(500).send(err);
