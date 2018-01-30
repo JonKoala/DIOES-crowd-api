@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get('/paginable', (req, res) => {
 
-  // default
+  // default filter
   var findOptions = {
     where: [ {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}} ]
   };
@@ -20,9 +20,21 @@ router.get('/paginable', (req, res) => {
   if ('sortBy' in req.query && 'sortOrder' in req.query)
     findOptions.order = [[req.query.sortBy, req.query.sortOrder]];
 
-  // where logic
-  if ('whereData' in req.query)
-    findOptions.where.push({data: req.query.whereData});
+  // filtering logic
+  if ('filterStartingDate' in req.query)
+    findOptions.where.push({data: {$gte: req.query.filterStartingDate}})
+  if ('filterEndingDate' in req.query)
+    findOptions.where.push({data: {$lte: req.query.filterEndingDate}})
+  if ('filterTipo' in req.query)
+    findOptions.where.push({tipo: req.query.filterTipo});
+  if ('filterCategoria' in req.query)
+    findOptions.where.push({categoria: req.query.filterCategoria});
+  if ('filterOrgao' in req.query)
+    findOptions.where.push({orgao: req.query.filterOrgao});
+  if ('filterSuborgao' in req.query)
+    findOptions.where.push({suborgao: req.query.filterSuborgao});
+  if ('filterClasse' in req.query)
+    findOptions.where.push({classe_id: parseInt(req.query.filterClasse)});
 
   model.predicao.findAndCountAll(findOptions)
   .then(result => {

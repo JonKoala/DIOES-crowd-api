@@ -8,3 +8,4 @@ db:
 
   crowdsourcer:
     tipos_publicacoes: []
+	classes_predictables: []
