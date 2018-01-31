@@ -35,6 +35,10 @@ router.get('/paginable', (req, res) => {
     findOptions.where.push({suborgao: req.query.filterSuborgao});
   if ('filterClasse' in req.query)
     findOptions.where.push({classe_id: parseInt(req.query.filterClasse)});
+  if ('filterMinValor' in req.query)
+    findOptions.where.push({valor: {$gte: parseInt(req.query.filterMinValor)}});
+  if ('filterMaxValor' in req.query)
+    findOptions.where.push({valor: {$lte: parseInt(req.query.filterMaxValor)}});
 
   model.predicao.findAndCountAll(findOptions)
   .then(result => {
