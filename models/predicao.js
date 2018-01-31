@@ -19,7 +19,8 @@ var predicao = db.define('predicao', {
   corpo: sequelize.STRING,
   classe_id: sequelize.INTEGER,
   classe_ordem: sequelize.INTEGER,
-  classe: sequelize.STRING
+  classe: sequelize.STRING,
+  valor: sequelize.DECIMAL
 }, {
   timestamps: false,
   tableName: 'Predicao'
