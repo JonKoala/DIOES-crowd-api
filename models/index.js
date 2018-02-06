@@ -1,8 +1,9 @@
 var publicacao = require('./publicacao')
 var classe = require('./classe')
 var classificacao = require('./classificacao')
-var keyword = require('./keyword')
 var predicao = require('./predicao')
+var keyword = require('./keyword')
+var blacklisted = require('./blacklisted')
 
 //publicacao 1:0 classificacao
 classificacao.belongsTo(publicacao, {foreignKey: 'id'})
@@ -21,3 +22,4 @@ module.exports.classe = classe;
 module.exports.classificacao = classificacao;
 module.exports.keyword = keyword;
 module.exports.predicao = predicao;
+module.exports.blacklisted = blacklisted;

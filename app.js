@@ -13,6 +13,7 @@ app.use('/publicacoes', require('./routes/publicacoes'));
 app.use('/classes', require('./routes/classes'));
 app.use('/classificacoes', require('./routes/classificacoes'));
 app.use('/predicoes', require('./routes/predicoes'));
+app.use('/blacklist', require('./routes/blacklist'));
 
 var port = appconfig['server']['port'];
 app.listen(port, function() {
