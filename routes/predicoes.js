@@ -25,6 +25,12 @@ router.get('/paginable', (req, res) => {
     findOptions.where.push({data: {$gte: req.query.filterStartingDate}})
   if ('filterEndingDate' in req.query)
     findOptions.where.push({data: {$lte: req.query.filterEndingDate}})
+  if ('filterMinValor' in req.query)
+    findOptions.where.push({valor: {$gte: parseInt(req.query.filterMinValor)}});
+  if ('filterMaxValor' in req.query)
+    findOptions.where.push({valor: {$lte: parseInt(req.query.filterMaxValor)}});
+  if ('filterCorpo' in req.query)
+    findOptions.where.push({corpo: {$like: '%' + req.query.filterCorpo + '%'}});
   if ('filterTipo' in req.query)
     findOptions.where.push({tipo: req.query.filterTipo});
   if ('filterCategoria' in req.query)
@@ -35,10 +41,6 @@ router.get('/paginable', (req, res) => {
     findOptions.where.push({suborgao: req.query.filterSuborgao});
   if ('filterClasse' in req.query)
     findOptions.where.push({classe_id: parseInt(req.query.filterClasse)});
-  if ('filterMinValor' in req.query)
-    findOptions.where.push({valor: {$gte: parseInt(req.query.filterMinValor)}});
-  if ('filterMaxValor' in req.query)
-    findOptions.where.push({valor: {$lte: parseInt(req.query.filterMaxValor)}});
 
   model.predicao.findAndCountAll(findOptions)
   .then(result => {
