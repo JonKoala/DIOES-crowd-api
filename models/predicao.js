@@ -17,6 +17,8 @@ var predicao = db.define('predicao', {
   materia: sequelize.STRING,
   identificador: sequelize.INTEGER,
   corpo: sequelize.STRING,
+  macrorregiao_id: sequelize.INTEGER,
+  macrorregiao: sequelize.STRING,
   classe_id: sequelize.INTEGER,
   classe_ordem: sequelize.INTEGER,
   classe: sequelize.STRING,

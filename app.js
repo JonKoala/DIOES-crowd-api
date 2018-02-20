@@ -14,6 +14,7 @@ app.use('/classes', require('./routes/classes'));
 app.use('/classificacoes', require('./routes/classificacoes'));
 app.use('/predicoes', require('./routes/predicoes'));
 app.use('/blacklist', require('./routes/blacklist'));
+app.use('/macrorregioes', require('./routes/macrorregioes'));
 
 var port = appconfig['server']['port'];
 app.listen(port, function() {
