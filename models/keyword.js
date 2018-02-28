@@ -11,7 +11,7 @@ var keyword = db.define('keyword', {
   palavra: sequelize.STRING
 }, {
   timestamps: false,
-  tableName: 'Classe_Keyword_DIOES3'
+  tableName: 'Keyword'
 });
 
 module.exports = keyword;

@@ -5,12 +5,12 @@ var classificacao = db.define('classificacao', {
   id: {
     type: sequelize.INTEGER,
     primaryKey: true,
-    field: 'DIOES3_id'
+    field: 'publicacao_id'
   },
   classe_id: sequelize.INTEGER
 }, {
   timestamps: false,
-  tableName: 'Classificacao_DIOES3'
+  tableName: 'Classificacao'
 });
 
 module.exports = classificacao;

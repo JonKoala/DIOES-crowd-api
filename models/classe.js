@@ -11,7 +11,7 @@ var classe = db.define('classe', {
   ordem: sequelize.INTEGER
 }, {
   timestamps: false,
-  tableName: 'Classe_DIOES3'
+  tableName: 'Classe'
 });
 
 module.exports = classe;

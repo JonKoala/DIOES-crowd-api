@@ -10,7 +10,7 @@ var blacklisted = db.define('blacklisted', {
   palavra: sequelize.STRING
 }, {
   timestamps: false,
-  tableName: 'Backlist_Palavra_DIOES3'
+  tableName: 'Keyword_Backlisted'
 });
 
 module.exports = blacklisted;

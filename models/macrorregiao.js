@@ -10,7 +10,7 @@ var macrorregiao = db.define('macrorregiao', {
   nome: sequelize.STRING
 }, {
   timestamps: false,
-  tableName: 'Macrorregiao_DIOES3'
+  tableName: 'Macrorregiao'
 });
 
 module.exports = macrorregiao;
