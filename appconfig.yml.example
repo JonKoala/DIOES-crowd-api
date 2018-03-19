@@ -6,6 +6,6 @@ db:
   database: '[DATABASE NAME]'
   driver: '[SQL Server Native Client x]'
 
-  crowdsourcer:
-    tipos_publicacoes: []
-	classes_predictables: []
+crowdsourcer:
+  tipos_publicacoes: []
+  classes_predictables: []
