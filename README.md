@@ -1,5 +1,5 @@
-# DIARIOBOT-API
-API para as aplicações web do DIARIOBOT.
+# diariobot-webapp-api
+API para as aplicações web do diariobot.
 
 ### Requisitos
  - [Node](https://nodejs.org) >= 6.9
@@ -8,8 +8,8 @@ API para as aplicações web do DIARIOBOT.
 ### Instalação
 Clone o projeto para a sua máquina e acesse o diretório do mesmo.
 ``` bash
-git clone https://github.com/JonKoala/DIOES-crowd-api.git
-cd DIOES-crowd-api
+git clone https://github.com/JonKoala/diariobot-webapp-api.git
+cd diariobot-webapp-api
 ```
 Instale as dependências.
 ``` bash
