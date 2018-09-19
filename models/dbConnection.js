@@ -11,6 +11,7 @@ var db = new Sequelize({
   host: appconfig['db']['host'],
   database: appconfig['db']['database'],
 
+  operatorsAliases: false,
   logging: false
 });
 

@@ -1,5 +1,6 @@
 var appconfig = require('../appconfig')
 var model = require('../models')
+var Op = require('sequelize').Op
 var express = require('express')
 var router = express.Router();
 
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
 router.get('/predictable', (req, res) => {
 
   model.classe.findAll({
-    where: {nome: {$in: appconfig['crowdsourcer']['classes_predictables']}}
+    where: {nome: {[Op.in]: appconfig['crowdsourcer']['classes_predictables']}}
   }).then(classes => {
     res.send(classes);
   }).catch(err => {

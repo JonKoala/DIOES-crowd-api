@@ -1,5 +1,6 @@
 var appconfig = require('../appconfig')
 var model = require('../models')
+var Op = require('sequelize').Op
 var express = require('express')
 var router = express.Router();
 
@@ -9,9 +10,9 @@ router.get('/rand', (req, res) => {
     include: [{model: model.classificacao}],
     where: [
       {'$classificacao.classe_id$': null},
-      {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}}
+      {tipo: {[Op.in]: appconfig['crowdsourcer']['tipos_publicacoes']}}
     ],
-    order: 'randId'
+    order: ['randId']
   }).then(publicacao => {
     res.send(publicacao);
   }).catch(err => {
@@ -24,7 +25,7 @@ router.get('/list/:column', (req, res) => {
   var column = req.params.column;
 
   model.publicacao.findAll({
-    where: {tipo: {$in: appconfig['crowdsourcer']['tipos_publicacoes']}},
+    where: {tipo: {[Op.in]: appconfig['crowdsourcer']['tipos_publicacoes']}},
     attributes: [column],
     group: column
   }).then(result => {
