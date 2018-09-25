@@ -4,7 +4,9 @@ server:
 db:
   host: '[HOST NAME]'
   database: '[DATABASE NAME]'
-  driver: '[SQL Server Native Client x]'
+  username: '[USERNAME]'
+  password: '[PASSWORD]'
+  dialect: '[MSSQL]'
 
 crowdsourcer:
   tipos_publicacoes: []
