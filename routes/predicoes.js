@@ -1,4 +1,4 @@
-var appconfig = require('../appconfig')
+var filters = require('../utils/crowdsourcer.filters')
 var model = require('../models')
 var Op = require('sequelize').Op
 var express = require('express')
@@ -8,7 +8,7 @@ router.get('/paginable', (req, res) => {
 
   // default filter
   var findOptions = {
-    where: [ {tipo: {[Op.in]: appconfig['crowdsourcer']['tipos_publicacoes']}} ]
+    where: [ {tipo: {[Op.in]: filters.tipos}} ]
   };
 
   // pagination logic
@@ -72,7 +72,7 @@ router.get('/data/:year-:month-:day', (req, res) => {
   model.predicao.findAll({
     where: [
       {data: date},
-      {tipo: {[Op.in]: appconfig['crowdsourcer']['tipos_publicacoes']}}
+      {tipo: {[Op.in]: filters.tipos}}
     ]
   }).then(predicoes => {
     res.send(predicoes);

@@ -4,4 +4,6 @@ services:
   diariobot-webapp-api:
     build: .
     ports:
-     - "8081:8081"
+     - "${DIARIOBOT_API_PORT}:${DIARIOBOT_API_PORT}"
+    env_file:
+      - .env

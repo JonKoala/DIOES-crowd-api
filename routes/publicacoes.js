@@ -1,4 +1,4 @@
-var appconfig = require('../appconfig')
+var filters = require('../utils/crowdsourcer.filters')
 var model = require('../models')
 var Op = require('sequelize').Op
 var express = require('express')
@@ -10,7 +10,7 @@ router.get('/rand', (req, res) => {
     include: [{model: model.classificacao}],
     where: [
       {'$classificacao.classe_id$': null},
-      {tipo: {[Op.in]: appconfig['crowdsourcer']['tipos_publicacoes']}}
+      {tipo: {[Op.in]: filters.tipos}}
     ],
     order: ['randId']
   }).then(publicacao => {
@@ -25,7 +25,7 @@ router.get('/list/:column', (req, res) => {
   var column = req.params.column;
 
   model.publicacao.findAll({
-    where: {tipo: {[Op.in]: appconfig['crowdsourcer']['tipos_publicacoes']}},
+    where: {tipo: {[Op.in]: filters.tipos}},
     attributes: [column],
     group: column
   }).then(result => {

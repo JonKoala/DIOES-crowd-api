@@ -1,7 +1,6 @@
 var express = require('express')
 var cors = require('cors')
 var bodyParser = require('body-parser')
-var appconfig = require('./appconfig')
 
 var app = express();
 
@@ -16,7 +15,7 @@ app.use('/predicoes', require('./routes/predicoes'));
 app.use('/blacklist', require('./routes/blacklist'));
 app.use('/macrorregioes', require('./routes/macrorregioes'));
 
-var port = appconfig['server']['port'];
+var port = process.env['DIARIOBOT_API_PORT'];
 app.listen(port, function() {
   console.log('Server up and running! Listening on ' + port + '...');
 });
