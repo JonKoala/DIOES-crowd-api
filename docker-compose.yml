@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  diariobot-webapp-api:
+    build: .
+    ports:
+     - "8081:8081"
