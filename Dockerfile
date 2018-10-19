@@ -3,9 +3,7 @@ FROM node:8.12
 WORKDIR /app
 
 COPY package*.json ./
-
-RUN npm config set strict-ssl=false
-RUN npm install
+RUN npm config set registry http://registry.npmjs.org/ && npm install
 
 COPY . .
 
