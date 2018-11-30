@@ -1,7 +1,9 @@
-var sequelize = require('sequelize')
-var db = require('./dbConnection')
+const sequelize = require('sequelize')
 
-var macrorregiao = db.define('macrorregiao', {
+const db = require('./connection')
+
+
+module.exports = db.define('macrorregiao', {
   id: {
     type: sequelize.INTEGER,
     primaryKey: true,
@@ -11,6 +13,4 @@ var macrorregiao = db.define('macrorregiao', {
 }, {
   timestamps: false,
   tableName: 'Macrorregiao'
-});
-
-module.exports = macrorregiao;
+})

@@ -1,38 +1,23 @@
-var filters = require('../utils/crowdsourcer.filters')
-var model = require('../models')
-var Op = require('sequelize').Op
-var express = require('express')
-var router = express.Router();
+const Op = require('sequelize').Op
+const router = require('express').Router()
 
-router.get('/', (req, res) => {
+const dbi = require('../dbi')
+const filters = require('../utils/crowdsourcer.filters')
 
-  model.classe.findAll()
-  .then(classes => {
-    res.send(classes);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
 
-router.get('/predictable', (req, res) => {
+router.get('/', async (req, res) => {
+  var classes = await dbi.classe.findAll({ raw: true })
+  res.json(classes)
+})
 
-  model.classe.findAll({
-    where: {nome: {[Op.in]: filters.classes}}
-  }).then(classes => {
-    res.send(classes);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+router.get('/predictable', async (req, res) => {
+  var classes = await dbi.classe.findAll({ where: { nome: { [Op.in]: filters.classes } }, raw: true })
+  res.json(classes)
+})
 
-router.get('/keywords', (req, res) => {
+router.get('/keywords', async (req, res) => {
+  var classes = await dbi.classe.findAll({ include: [ { model: dbi.keyword, as: 'keywords' } ], raw: true })
+  res.json(classes)
+})
 
-  model.classe.findAll({include: [{model: model.keyword, as: 'keywords'}]})
-  .then(classes => {
-    res.send(classes);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
-
-module.exports = router;
+module.exports = router

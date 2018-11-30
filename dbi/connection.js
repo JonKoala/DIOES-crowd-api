@@ -1,6 +1,7 @@
-var Sequelize = require('sequelize')
+const Sequelize = require('sequelize')
 
-var db = new Sequelize({
+
+module.exports = new Sequelize({
   host: process.env['DIARIOBOT_DATABASE_HOST'],
   database: process.env['DIARIOBOT_DATABASE_NAME'],
   databaseVersion: process.env['DIARIOBOT_DATABASE_VERSION'],
@@ -11,8 +12,6 @@ var db = new Sequelize({
   },
 
   dialect: 'mssql',
-  operatorsAliases: false,
-  logging: false
-});
-
-module.exports = db;
+  logging: false,
+  operatorsAliases: false
+})

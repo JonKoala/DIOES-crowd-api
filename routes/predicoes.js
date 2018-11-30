@@ -1,96 +1,56 @@
-var filters = require('../utils/crowdsourcer.filters')
-var model = require('../models')
-var Op = require('sequelize').Op
-var express = require('express')
-var router = express.Router();
+const Op = require('sequelize').Op
+const router = require('express').Router()
 
-router.get('/paginable', (req, res) => {
+const dbi = require('../dbi')
+const filters = require('../utils/crowdsourcer.filters')
+
+
+router.get('/paginable', async (req, res) => {
 
   // default filter
-  var findOptions = {
-    where: [ {tipo: {[Op.in]: filters.tipos}} ]
-  };
+  var findOptions = { where: [ { tipo: { [Op.in]: filters.tipos } } ], raw: true }
 
   // pagination logic
   if ('itemsPerPage' in req.query && 'page' in req.query) {
-    findOptions.limit = req.query.itemsPerPage;
-    findOptions.offset = req.query.itemsPerPage * req.query.page;
+    findOptions.limit = req.query.itemsPerPage
+    findOptions.offset = req.query.itemsPerPage * req.query.page
   }
 
   // sorting logic
   if ('sortBy' in req.query && 'sortOrder' in req.query)
-    findOptions.order = [[req.query.sortBy, req.query.sortOrder]];
+    findOptions.order = [ [ req.query.sortBy, req.query.sortOrder ] ]
 
   // filtering logic
   if ('filterStartingDate' in req.query)
-    findOptions.where.push({data: {[Op.gte]: req.query.filterStartingDate}})
+    findOptions.where.push({ data: { [Op.gte]: req.query.filterStartingDate } })
   if ('filterEndingDate' in req.query)
-    findOptions.where.push({data: {[Op.lte]: req.query.filterEndingDate}})
+    findOptions.where.push({ data: { [Op.lte]: req.query.filterEndingDate } })
   if ('filterMinValor' in req.query)
-    findOptions.where.push({valor: {[Op.gte]: parseInt(req.query.filterMinValor)}});
+    findOptions.where.push({ valor: { [Op.gte]: parseInt(req.query.filterMinValor) } })
   if ('filterMaxValor' in req.query)
-    findOptions.where.push({valor: {[Op.lte]: parseInt(req.query.filterMaxValor)}});
+    findOptions.where.push({ valor: { [Op.lte]: parseInt(req.query.filterMaxValor) } })
   if ('filterCorpo' in req.query)
-    findOptions.where.push({corpo: {[Op.like]: '%' + req.query.filterCorpo + '%'}});
+    findOptions.where.push({ corpo: { [Op.like]: `%${req.query.filterCorpo}%` } })
   if ('filterTipo' in req.query)
-    findOptions.where.push({tipo: req.query.filterTipo});
+    findOptions.where.push({ tipo: req.query.filterTipo })
   if ('filterCategoria' in req.query)
-    findOptions.where.push({categoria: req.query.filterCategoria});
+    findOptions.where.push({ categoria: req.query.filterCategoria })
   if ('filterOrgao' in req.query)
-    findOptions.where.push({orgao: req.query.filterOrgao});
+    findOptions.where.push({ orgao: req.query.filterOrgao })
   if ('filterSuborgao' in req.query)
-    findOptions.where.push({suborgao: req.query.filterSuborgao});
+    findOptions.where.push({ suborgao: req.query.filterSuborgao })
   if ('filterMacrorregiao' in req.query)
-    findOptions.where.push({macrorregiao_id: parseInt(req.query.filterMacrorregiao)});
+    findOptions.where.push({ macrorregiao_id: parseInt(req.query.filterMacrorregiao) })
   if ('filterClasse' in req.query)
-    findOptions.where.push({classe_id: parseInt(req.query.filterClasse)});
+    findOptions.where.push({ classe_id: parseInt(req.query.filterClasse) })
 
-  model.predicao.findAndCountAll(findOptions)
-  .then(result => {
-    res.send(result);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+  var predicoes = await dbi.predicao.findAndCountAll(findOptions)
+  res.json(predicoes)
+})
 
-router.get('/latest', (req, res) => {
+router.get('/:id', async (req, res) => {
+  var predicao = await dbi.predicao.findById(req.params.id, { raw: true })
+  res.json(predicao)
+})
 
-  model.predicao.findOne({
-    attributes: ['data'],
-    order: [['data', 'DESC']],
-  }).then(predicao => {
-    res.send(predicao.data);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
-
-router.get('/data/:year-:month-:day', (req, res) => {
-
-  var date = req.params.year + '-' + req.params.month + '-' + req.params.day;
-
-  model.predicao.findAll({
-    where: [
-      {data: date},
-      {tipo: {[Op.in]: filters.tipos}}
-    ]
-  }).then(predicoes => {
-    res.send(predicoes);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
-
-router.get('/:id', (req, res) => {
-
-  let id = req.params.id;
-
-  model.predicao.findById(id)
-  .then(publicacao => {
-    res.send(publicacao);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
-
-module.exports = router;
+module.exports = router

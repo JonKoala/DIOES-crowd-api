@@ -1,7 +1,9 @@
-var sequelize = require('sequelize')
-var db = require('./dbConnection')
+const sequelize = require('sequelize')
 
-var keyword = db.define('keyword', {
+const db = require('./connection')
+
+
+module.exports = db.define('keyword', {
   id: {
     type: sequelize.INTEGER,
     primaryKey: true,
@@ -12,6 +14,4 @@ var keyword = db.define('keyword', {
 }, {
   timestamps: false,
   tableName: 'Keyword'
-});
-
-module.exports = keyword;
+})

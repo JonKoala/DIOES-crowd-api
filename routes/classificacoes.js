@@ -1,22 +1,19 @@
-var model = require('../models')
-var express = require('express')
-var router = express.Router();
+const router = require('express').Router()
 
-router.post('/', (req, res) => {
+const dbi = require('../dbi')
 
-  let publicacao = req.body.publicacao;
-  let classe = req.body.classe;
 
-  model.classificacao.destroy({where: {id: publicacao}})
-  .then(() => {
-    if (classe !== null)
-      return model.classificacao.create({id: publicacao, classe_id: classe});
-    return;
-  }).then(() => {
-    res.send();
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+router.post('/', async (req, res) => {
+  var publicacao = req.body.publicacao
+  var classe = req.body.classe
 
-module.exports = router;
+  await dbi.classificacao.destroy({ where: { id: publicacao } })
+  if (classe) {
+    var persistedClassificacao = await dbi.classificacao.create({ id: publicacao, classe_id: classe })
+    res.json(persistedClassificacao.get({ plain: true }))
+  } else {
+    res.send()
+  }
+})
+
+module.exports = router

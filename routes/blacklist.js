@@ -1,39 +1,34 @@
-var model = require('../models')
-var express = require('express')
-var router = express.Router();
+const router = require('express').Router()
 
-router.get('/', (req, res) => {
-  
-  model.blacklisted.findAll()
-  .then(blacklisted => {
-    res.send(blacklisted);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+const AppError = require('../error/AppError')
+const dbi = require('../dbi')
 
-router.post('/', (req, res) => {
 
-  var palavra = req.body.palavra;
+router.get('/', async (req, res) => {
+  var blacklist = await dbi.blacklisted.findAll({ raw: true })
+  res.json(blacklist)
+})
 
-  model.blacklisted.create({palavra: palavra})
-  .then(() => {
-    res.send();
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+router.post('/', async (req, res) => {
+  var palavra = req.body.palavra
 
-router.delete('/', (req, res) => {
+  var existingPalavra = await dbi.blacklisted.findOne({ where: { palavra }, raw: true })
+  if (existingPalavra)
+    throw new AppError(`Palavra already blacklisted: ${palavra}`)
 
-  var palavra = req.query.palavra;
+  var persistedPalavra = await dbi.blacklisted.create({ palavra })
+  res.json(persistedPalavra.get({ plain: true }))
+})
 
-  model.blacklisted.destroy({where: {palavra: palavra}})
-  .then(() => {
-    res.send();
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+router.delete('/', async (req, res) => {
+  var palavra = req.body.palavra
 
-module.exports = router;
+  var existingPalavra = await dbi.blacklisted.findOne({ where: { palavra }, raw: true })
+  if (!existingPalavra)
+    throw new AppError(`Palavra not found in the blacklist: ${palavra}`)
+
+  await dbi.blacklisted.destroy({ where: { palavra } })
+  res.send()
+})
+
+module.exports = router

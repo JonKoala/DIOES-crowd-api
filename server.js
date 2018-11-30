@@ -20,5 +20,4 @@ app.use('/usuarios', require('./routes/usuarios'))
 
 app.use(require('./error/ErrorHandler'))
 
-var port = process.env['DIARIOBOT_API_PORT']
-app.listen(port, () => console.log(`Server up and running! Listening on ${port}...`))
+app.listen(process.env['DIARIOBOT_API_PORT'], () => console.log(`Server up and running! Listening on ${process.env['DIARIOBOT_API_PORT']}...`))

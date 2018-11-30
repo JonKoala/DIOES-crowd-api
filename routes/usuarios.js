@@ -1,11 +1,9 @@
-const express = require('express')
 const jwt = require('jwt-simple')
+const router = require('express').Router()
 
 const AppError = require('../error/AppError')
 const ldap = require('../auth/ldap')
 
-
-const router = express.Router()
 
 router.post('/login', async (req, res) => {
 
@@ -23,11 +21,9 @@ router.post('/login', async (req, res) => {
       res.json(jwt.encode(user, process.env['DIARIOBOT_JWT_SECRET']))
     else
       throw new AppError('Wrong password.')
-
   } else {
     throw new AppError('User not found.')
   }
-
 })
 
 module.exports = router

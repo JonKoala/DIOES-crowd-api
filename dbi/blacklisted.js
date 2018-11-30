@@ -1,7 +1,9 @@
-var sequelize = require('sequelize')
-var db = require('./dbConnection')
+const sequelize = require('sequelize')
 
-var blacklisted = db.define('blacklisted', {
+const db = require('./connection')
+
+
+module.exports = db.define('blacklisted', {
   id: {
     type: sequelize.INTEGER,
     primaryKey: true,
@@ -11,6 +13,4 @@ var blacklisted = db.define('blacklisted', {
 }, {
   timestamps: false,
   tableName: 'Keyword_Backlisted'
-});
-
-module.exports = blacklisted;
+})

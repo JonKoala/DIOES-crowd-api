@@ -1,7 +1,9 @@
-var sequelize = require('sequelize')
-var db = require('./dbConnection')
+const sequelize = require('sequelize')
 
-var classificacao = db.define('classificacao', {
+const db = require('./connection')
+
+
+module.exports = db.define('classificacao', {
   id: {
     type: sequelize.INTEGER,
     primaryKey: true,
@@ -11,6 +13,4 @@ var classificacao = db.define('classificacao', {
 }, {
   timestamps: false,
   tableName: 'Classificacao'
-});
-
-module.exports = classificacao;
+})

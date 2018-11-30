@@ -1,50 +1,39 @@
-var filters = require('../utils/crowdsourcer.filters')
-var model = require('../models')
-var Op = require('sequelize').Op
-var express = require('express')
-var router = express.Router();
+const Op = require('sequelize').Op
+const router = require('express').Router()
 
-router.get('/rand', (req, res) => {
+const dbi = require('../dbi')
+const filters = require('../utils/crowdsourcer.filters')
 
-  model.publicacao.findOne({
-    include: [{model: model.classificacao}],
+
+router.get('/rand', async (req, res) => {
+  var publicacao = await dbi.publicacao.findOne({
+    include: [ { model: dbi.classificacao } ],
     where: [
-      {'$classificacao.classe_id$': null},
-      {tipo: {[Op.in]: filters.tipos}}
+      { '$classificacao.classe_id$': null },
+      { tipo: { [Op.in]: filters.tipos } }
     ],
-    order: ['randId']
-  }).then(publicacao => {
-    res.send(publicacao);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+    order: [ 'randId' ],
+    raw: true
+  })
+  res.json(publicacao)
+})
 
-router.get('/list/:column', (req, res) => {
+router.get('/list/:column', async (req, res) => {
+  var column = req.params.column
 
-  var column = req.params.column;
+  var publicacoes = await dbi.publicacao.findAll({
+    where: { tipo: { [Op.in]: filters.tipos } },
+    attributes: [ column ],
+    group: column,
+    raw: true
+  })
+  var columnList = publicacoes.map(entry => entry[column])
+  res.json(columnList)
+})
 
-  model.publicacao.findAll({
-    where: {tipo: {[Op.in]: filters.tipos}},
-    attributes: [column],
-    group: column
-  }).then(result => {
-    res.send(result.map(entry => entry[column]));
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
+router.get('/:id', async (req, res) => {
+  var publicacao = await dbi.publicacao.findById(req.params.id, { raw: true })
+  res.json(publicacao)
+})
 
-router.get('/:id', (req, res) => {
-
-  let id = req.params.id;
-
-  model.publicacao.findById(id)
-  .then(publicacao => {
-    res.send(publicacao);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
-
-module.exports = router;
+module.exports = router

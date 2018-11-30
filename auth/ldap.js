@@ -8,7 +8,6 @@ const client = new ActiveDirectory({
 })
 
 module.exports = {
-
   authenticate (username, password) {
     return new Promise((resolve, reject) => {
       try {
@@ -44,5 +43,4 @@ module.exports = {
       }
     })
   }
-
 }

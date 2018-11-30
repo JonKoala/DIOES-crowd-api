@@ -1,15 +1,11 @@
-var model = require('../models')
-var express = require('express')
-var router = express.Router();
+const router = require('express').Router()
 
-router.get('/', (req, res) => {
+const dbi = require('../dbi')
 
-  model.macrorregiao.findAll()
-  .then(macrorregioes => {
-    res.send(macrorregioes);
-  }).catch(err => {
-    res.status(500).send(err);
-  });
-});
 
-module.exports = router;
+router.get('/', async (req, res) => {
+  var macrorregioes = await dbi.macrorregiao.findAll({ raw: true })
+  res.json(macrorregioes)
+})
+
+module.exports = router
