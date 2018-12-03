@@ -1,9 +1,10 @@
 const router = require('express').Router()
 
+const auth = require('../auth')
 const dbi = require('../dbi')
 
 
-router.post('/', async (req, res) => {
+router.post('/', auth.authenticate(process.env['DIARIOBOT_AUTH_GROUP_ADMIN']), async (req, res) => {
   var publicacao = req.body.publicacao
   var classe = req.body.classe
 

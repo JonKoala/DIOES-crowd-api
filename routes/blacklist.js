@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const AppError = require('../error/AppError')
+const auth = require('../auth')
 const dbi = require('../dbi')
 
 
@@ -9,7 +10,7 @@ router.get('/', async (req, res) => {
   res.json(blacklist)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth.authenticate(process.env['DIARIOBOT_AUTH_GROUP_ADMIN']), async (req, res) => {
   var palavra = req.body.palavra
 
   var existingPalavra = await dbi.blacklisted.findOne({ where: { palavra }, raw: true })
@@ -20,7 +21,7 @@ router.post('/', async (req, res) => {
   res.json(persistedPalavra.get({ plain: true }))
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/', auth.authenticate(process.env['DIARIOBOT_AUTH_GROUP_ADMIN']), async (req, res) => {
   var palavra = req.body.palavra
 
   var existingPalavra = await dbi.blacklisted.findOne({ where: { palavra }, raw: true })
