@@ -9,7 +9,8 @@ module.exports = db.define('classificacao', {
     primaryKey: true,
     field: 'publicacao_id'
   },
-  classe_id: sequelize.INTEGER
+  classe_id: sequelize.INTEGER,
+  usuario: sequelize.STRING
 }, {
   timestamps: false,
   tableName: 'Classificacao'
