@@ -1,4 +1,5 @@
 const Op = require('sequelize').Op
+const fn = require('sequelize').fn
 const router = require('express').Router()
 
 const dbi = require('../dbi')
@@ -7,12 +8,13 @@ const filters = require('../utils/crowdsourcer.filters')
 
 router.get('/rand', async (req, res) => {
   var publicacao = await dbi.publicacao.findOne({
-    include: [ { model: dbi.classificacao } ],
-    where: [
-      { '$classificacao.classe_id$': null },
-      { tipo: { [Op.in]: filters.tipos } }
-    ],
-    order: [ 'randId' ],
+    include: [{
+        model: dbi.classificacao,
+        required: false,
+        where: { classe_id: { [Op.eq]: null } }
+    }],
+    where: { tipo: { [Op.in]: filters.tipos } },
+    order: [ [fn('NEWID')] ],
     raw: true
   })
   res.json(publicacao)
