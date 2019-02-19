@@ -7,7 +7,7 @@ RUN npm config set registry http://registry.npmjs.org/ && npm install
 
 COPY . .
 
+CMD [ "npm", "start" ]
+
 ARG DIARIOBOT_API_PORT
 EXPOSE $DIARIOBOT_API_PORT
-
-CMD [ "npm", "start" ]
