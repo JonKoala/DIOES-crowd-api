@@ -49,7 +49,7 @@ router.get('/paginable', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  var predicao = await dbi.predicao.findById(req.params.id, { raw: true })
+  var predicao = await dbi.predicao.findByPk(req.params.id, { raw: true })
   res.json(predicao)
 })
 

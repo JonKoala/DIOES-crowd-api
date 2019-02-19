@@ -34,7 +34,7 @@ router.get('/list/:column', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  var publicacao = await dbi.publicacao.findById(req.params.id, { raw: true })
+  var publicacao = await dbi.publicacao.findByPk(req.params.id, { raw: true })
   res.json(publicacao)
 })
 
