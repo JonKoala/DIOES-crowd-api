@@ -36,13 +36,16 @@ module.exports = {
     return new Promise((resolve, reject) => {
       try {
         client.findUser(username, (err, user) => {
-          resolve({
-            email: user.mail,
-            fullName: user.cn,
-            name: user.givenName,
-            registry: user.sAMAccountName,
-            username: user.userPrincipalName
-          })
+          if (user)
+            resolve({
+              email: user.mail,
+              fullName: user.cn,
+              name: user.givenName,
+              registry: user.sAMAccountName,
+              username: user.userPrincipalName
+            })
+          else
+            resolve()
         })
       } catch (err) {
         reject(err)

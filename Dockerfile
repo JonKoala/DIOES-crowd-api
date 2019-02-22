@@ -1,4 +1,4 @@
-FROM node:8.12
+FROM node:8.15
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,3 @@ RUN npm config set registry http://registry.npmjs.org/ && npm install
 COPY . .
 
 CMD [ "npm", "start" ]
-
-ARG DIARIOBOT_API_PORT
-EXPOSE $DIARIOBOT_API_PORT
