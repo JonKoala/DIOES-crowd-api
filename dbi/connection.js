@@ -12,6 +12,5 @@ module.exports = new Sequelize({
   },
 
   dialect: 'mssql',
-  logging: false,
-  operatorsAliases: false
+  logging: false
 })
