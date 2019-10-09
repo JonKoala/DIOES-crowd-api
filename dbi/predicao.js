@@ -19,6 +19,7 @@ module.exports = db.define('predicao', {
   materia: sequelize.STRING,
   identificador: sequelize.INTEGER,
   corpo: sequelize.STRING,
+  fonte: sequelize.STRING,
   macrorregiao_id: sequelize.INTEGER,
   macrorregiao: sequelize.STRING,
   classe_id: sequelize.INTEGER,

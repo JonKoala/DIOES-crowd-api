@@ -39,8 +39,8 @@ router.get('/paginable', async (req, res) => {
     findOptions.where.push({ orgao: req.query.filterOrgao })
   if ('filterSuborgao' in req.query)
     findOptions.where.push({ suborgao: req.query.filterSuborgao })
-  if ('filterMacrorregiao' in req.query)
-    findOptions.where.push({ macrorregiao_id: parseInt(req.query.filterMacrorregiao) })
+  if ('filterFonte' in req.query)
+    findOptions.where.push({ fonte: req.query.filterFonte })
   if ('filterClasse' in req.query)
     findOptions.where.push({ classe_id: parseInt(req.query.filterClasse) })
 

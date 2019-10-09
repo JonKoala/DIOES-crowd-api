@@ -18,7 +18,8 @@ module.exports = db.define('publicacao', {
   tipo: sequelize.STRING,
   materia: sequelize.STRING,
   identificador: sequelize.INTEGER,
-  corpo: sequelize.STRING
+  corpo: sequelize.STRING,
+  fonte: sequelize.STRING
 }, {
   timestamps: false,
   tableName: 'Publicacao'
